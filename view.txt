@@ -1,0 +1,217 @@
+CREATE VIEW report
+As SELECT siswa2.formal_name, 
+COUNT(*) As jp2, order_id
+FROM siswa2
+LEFT JOIN formal
+ON siswa2.formal_name = formal.formal_name
+GROUP BY formal_name, order_id
+
+DB_DATABASE=u257760924_psb
+DB_USERNAME=u257760924_admin
+DB_PASSWORD=R1fan123
+
+CREATE VIEW mukim As
+Select *, count(if(santri_profile.jk == "L" && santri_profile.is_mukim == 1 && santri_profile.is_alumni == 2, 1, null)) as mukiml, 
+count(if(santri_profile.jk == "P" && santri_profile.is_mukim == 1 && santri_profile.is_alumni == 2, 1, null)) as mukimp
+from bayar
+leftJoin santri_profile
+on bayar.no_daftar = santri_profile.no_daftar
+order by bayar.tgl_bayar
+
+CREATE VIEW siswa2
+AS SELECT bayar.tgl_bayar,santri_profile.*, formal.* FROM bayar
+JOIN santri_profile
+ON bayar.no_daftar = santri_profile.no_daftar
+LEFT JOIN formal
+ON santri_profile.pil2 = formal.formal_name
+
+CREATE VIEW jml1
+As SELECT siswa1.formal_name, COUNT(*) As jp2,COUNT(IF(jk="L")) AS lk, COUNT(*) As jp2,COUNT(IF(jk="P")) AS pr, order_id
+FROM siswa1
+LEFT JOIN formal
+ON siswa1.formal_name = formal.formal_name
+GROUP BY formal_name, order_id
+
+CREATE VIEW total_pendaftar
+AS SELECT
+count(if(jk = "L" && is_mukim = 1 && is_alumni = 2, 1, null)) as baru_lk, 
+count(if(jk = "P" && is_mukim = 1 && is_alumni = 2, 1, null)) as baru_pr,
+count(if(jk = "L" && is_mukim = 1 && is_alumni = 1, 1, null)) as alumni_lk,
+count(if(jk = "P" && is_mukim = 1 && is_alumni = 1, 1, null)) as alumni_pr,
+count(if(jk = "L" && date(tgl_bayar) = curdate(), 1, null)) as now_lk,
+count(if(jk = "P" && date(tgl_bayar) = curdate(), 1, null)) as now_pr,
+count(if(jk = "L" && tgl_keluar IS NOT NULL, 1, null)) as out_lk,
+count(if(jk = "P" && tgl_keluar IS NOT NULL, 1, null)) as out_pr,
+count(if(is_mukim = 1 && is_alumni = 2, 1, null)) as total_baru,
+count(if(is_mukim = 1 && is_alumni = 1, 1, null)) as total_alumni,
+count(if(date(tgl_bayar) = curdate(), 1, null)) as total_now,
+count(if(tgl_keluar IS NOT NULL, 1, null)) as total_out,
+count(if(jk = "L" && is_mukim = 0, 1, null)) as nomukim_lk,
+count(if(jk = "P" && is_mukim = 0, 1, null)) as nomukim_pr,
+count(if(is_mukim = 0, 1, null)) as total_nomukim
+FROM siswa1
+
+
+//trigger Nilai
+DELIMITER $$
+CREATE TRIGGER nilai
+	BEFORE INSERT ON user_jawaban
+    FOR EACH ROW
+BEGIN
+	SET NEW.nilai = (SELECT jawaban FROM soal where soal_no = NEW.soal_no);
+    IF NEW.nilai = NEW.jawaban THEN
+    SET NEW.nilai = 10; ELSE
+    SET NEW.nilai = 0;
+	END IF;
+END $$
+DELIMITER ;
+
+CREATE VIEW nilai
+AS SELECT user_id, 
+        sum(if(soal_id = "101" || soal_id = "201", nilai, 0)) as indo,
+        sum(if(soal_id = "102" || soal_id = "202", nilai, 0)) as inggris,
+        sum(if(soal_id = "103" || soal_id = "203", nilai, 0)) as ipa,
+        sum(if(soal_id = "104" || soal_id = "204", nilai, 0)) as mtk,
+        sum(if(soal_id = "105" || soal_id = "205", nilai, 0)) as pai,
+        avg(if(no_daftar = user_id,nilai,0)) as rata2
+FROM user_jawaban
+LEFT JOIN santri_profile
+ON no_daftar = user_id
+GROUP BY user_id
+ORDER BY rata2 ASC
+
+CREATE VIEW nilai
+AS SELECT user_id, 
+        sum(if(soal_id = "101" || soal_id = "201", nilai, 0)) as indo,
+        sum(if(soal_id = "102" || soal_id = "202", nilai, 0)) as inggris,
+        sum(if(soal_id = "103" || soal_id = "203", nilai, 0)) as ipa,
+        sum(if(soal_id = "104" || soal_id = "204", nilai, 0)) as mtk,
+        sum(if(soal_id = "105" || soal_id = "205", nilai, 0)) as pai,
+        avg(nilai) * 10 as rata2
+FROM user_jawaban
+LEFT JOIN santri_profile
+ON no_daftar = user_id
+GROUP BY user_id
+
+CREATE VIEW jml1
+As SELECT formal_name, 
+            COUNT(if(jk="L",1,Null)) As putra1,
+            COUNT(if(jk="P",1,Null)) As putri1, 
+            COUNT(*) As jp1, order_id
+FROM siswa1
+GROUP BY formal_name, order_id
+ORDER By order_id ASC
+
+CREATE VIEW jml2
+As SELECT formal_name, 
+            COUNT(if(jk="L",1,Null)) As putra2,
+            COUNT(if(jk="P",1,Null)) As putri2, 
+            COUNT(*) As jp2, order_id
+FROM siswa2
+GROUP BY formal_name, order_id
+ORDER By order_id ASC
+
+
+CREATE VIEW nilai_siswa
+AS SELECT bayar.tgl_bayar,santri_profile.*, formal.*, nilai.* 
+FROM bayar
+JOIN santri_profile
+ON bayar.no_daftar = santri_profile.no_daftar
+LEFT JOIN formal
+ON santri_profile.pil1 = formal.formal_name
+
+
+CREATE VIEW tahap12020
+AS SELECT pil1 as formal_name,
+count(if(jk = "L" && date(tgl_bayar) <= "2020-06-06 13:00:00", 1, null)) as putra, 
+count(if(jk = "P" && date(tgl_bayar) <= "2020-06-06 13:00:00", 1, null)) as putri, 
+count(if(date(tgl_bayar) <= "2020-06-06 13:00:00", 1, null)) as total
+FROM siswa1
+GROUP BY pil1
+
+CREATE VIEW tahap22020
+AS SELECT pil1 as formal_name,
+count(if(jk = "L", 1, null)) as putra, 
+count(if(jk = "P", 1, null)) as putri, 
+count(*) as total
+FROM siswa1
+WHERE (tgl_bayar BETWEEN '2020-06-06 14:30:00' AND '2020-06-26 14:30:00')
+GROUP BY pil1
+
+CREATE VIEW tahap32020
+AS SELECT pil1 as formal_name,
+count(if(jk = "L", 1, null)) as putra, 
+count(if(jk = "P", 1, null)) as putri, 
+count(*) as total
+FROM siswa1
+WHERE (tgl_bayar BETWEEN '2020-06-26 14:30:00' AND '2020-07-15 14:30:00')
+GROUP BY pil1
+
+CREATE VIEW lulus12020
+AS SELECT kelulusan.status as formal_name,
+count(if(jk = "L", 1, null)) as putra, 
+count(if(jk = "P",1, null)) as putri, 
+count(*) as total
+FROM siswa1
+LEFT JOIN kelulusan ON kelulusan.no_daftar = siswa1.no_daftar
+where kelulusan.tgl_lulus = "09-06-2020"
+GROUP BY kelulusan.status
+
+CREATE VIEW lulus22020
+AS SELECT kelulusan.status as formal_name,
+count(if(jk = "L", 1, null)) as putra, 
+count(if(jk = "P",1, null)) as putri, 
+count(*) as total
+FROM kelulusan
+LEFT JOIN siswa1 ON kelulusan.no_daftar = siswa1.no_daftar
+where kelulusan.tgl_lulus = "01-07-2020"
+GROUP BY kelulusan.status
+
+CREATE VIEW tahap32020
+AS SELECT pil1 as formal_name,
+count(if(jk = "L", 1, null)) as putra, 
+count(if(jk = "P", 1, null)) as putri, 
+count(*) as total
+FROM siswa1
+WHERE (tgl_bayar BETWEEN '2020-06-26 14:00:00' AND '2020-07-15 23:00:00')
+GROUP BY pil1
+
+
+CREATE VIEW total_pendaftar
+AS SELECT kec as kec, kab as kab,
+count(if(jk = "L" && is_mukim = 1 && is_alumni = 2, 1, null)) as baru_lk, 
+count(if(jk = "P" && is_mukim = 1 && is_alumni = 2, 1, null)) as baru_pr,
+count(if(jk = "L" && is_mukim = 1 && is_alumni = 1, 1, null)) as alumni_lk,
+count(if(jk = "P" && is_mukim = 1 && is_alumni = 1, 1, null)) as alumni_pr,
+FROM siswa1
+GROUP BY kec, kab
+
+CREATE VIEW total_perwil
+AS SELECT kec as kec, kab as kab,
+count(if(jk = "L" && is_mukim = 1 && is_alumni = 2, 1, null)) as baru_lk, 
+count(if(jk = "P" && is_mukim = 1 && is_alumni = 2, 1, null)) as baru_pr,
+count(if(jk = "L" && is_mukim = 1 && is_alumni = 1, 1, null)) as alumni_lk,
+count(if(jk = "P" && is_mukim = 1 && is_alumni = 1, 1, null)) as alumni_pr
+FROM siswa1
+GROUP BY kec, kab
+ORDER BY kab
+
+CREATE VIEW total_lbg
+AS SELECT kelulusan.status AS lulusdi,
+count(if(jk = "L" && is_mukim = 1 && is_alumni = 2, 1, null)) as baru_lk, 
+count(if(jk = "L" && is_mukim = 1 && is_alumni = 1, 1, null)) as alumni_lk,
+count(if(jk = "L" && is_mukim = 1, 1, null)) as total_lk,
+count(if(jk = "P" && is_mukim = 1 && is_alumni = 2, 1, null)) as baru_pr,
+count(if(jk = "P" && is_mukim = 1 && is_alumni = 1, 1, null)) as alumni_pr,
+count(if(jk = "P" && is_mukim = 1, 1, null)) as total_pr
+FROM kelulusan
+JOIN siswa1 ON kelulusan.no_daftar = siswa1.no_daftar
+GROUP BY lulusdi
+
+
+tahap1
+tahap2
+lulus1
+lulus2
+
+DELETE FROM user_jawaban WHERE user_id = 191

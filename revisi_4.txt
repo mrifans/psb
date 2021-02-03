@@ -1,0 +1,133 @@
+
+1. perubahan keterangan berhasil bayar (local='Done'||online='Done')
+2. perubahan keterangan belum bayar (local='Done'||online='Done')
+3. perubahan keterangan sudah bayar (local='Done'||online='Done')
+4. perubahan keterangan tidak ditemukan (local='Done'||online='Done')
+5. Perubahan alumni : (iya/tidak) pada fbendahara.blade.php (local='Done'||online='done')
+6. penambahan di AdminController //bendahara | Route::post('alumni','AdminController@alumni') (local='Done'||online='done')
+7. perubahan pada beranda.blade.php || Masukan NISN yang sudah di daftarkan (local='Done'||online='done')
+8. perubahan pada beranda.blade.php || name=nisn (local='Done'||online='done')
+9. perubahan DaftarController | fun cek() (local='Done'||online='Done')
+9. perubahan keterangan tidak ditemukan (local='Done'||online='Done')
+10. perubahan keterangan sudah bayar (local='Done'||online='Done')
+11. perubahan pada tabel bayar struktur kolom tgl_bayar menjadi datetime (local='Done'||online='Done') 
+12. penambahan kolom no_mukim pada tabel santri_profile (local='Done'||online='Done')
+13. perubahan pada config/app.php pada timezone menjadi Asia/Jakarta (local=''||online='Done')
+->
+14. membuat file barul.blade.php (local='Done'||online='Done')
+15. buat route baru Route::get('/barul', 'AdminController@barul'); -> local='Done'||online='Done')
+16. buat route baru Route::get('/barul/{id}', 'AdminController@barulid'); -> local='Done'||online='Done')
+17. membuat file barup.blade.php (local='Done'||online='Done')
+18. buat route baru Route::get('/barup', 'AdminController@barup'); -> local='Done'||online='Done')
+19. buat route baru Route::get('/barup/{id}', 'AdminController@barupid'); -> (local='Done'||online='Done')
+20. buat menu no. pondok pa sidebar (local='Done'||online='Done')
+21. buat menu no. pondok pi sidebar (local='Done'||online='Done')
+22. perubahan pada No. pondok pada formulir pondok. (local='Done'||online='Done')
+23. perubahan pada menu bendahara (local='No'||online='Done')
+-->
+24. membuat file indukl.blade.php (local='Done'||online='Done')
+25. buat route baru Route::get('/indukl', 'AdminController@indukl'); -> local='Done'||online='Done')
+26. buat route baru Route::get('/indukl/{id}', 'AdminController@induklid'); -> local='Done'||online='Done')
+27. membuat file indukp.blade.php (local='Done'||online='Done')
+28. buat route baru Route::get('/indukp', 'AdminController@indukp'); -> local='Done'||online='Done')
+29. buat route baru Route::get('/indukp/{id}', 'AdminController@indukpid'); -> local='Done'||online='Done')
+30. penambahan controller indukl,indukp,induklid,indukpid (local='Done'||online='Done')
+31. penambahan menu side bar Input nomor induk (local='Done'||online='Done')
+-->
+32. membuat report.blade.php (local='Done'||online='Done')
+33. membuat reportt.blade.php (local='Done'||online='Done')
+34. membuat Route baru Route::get('/reportbl', 'AdminController@reportbl'); (local='Done'||online='Done')
+35. membuat Route baru Route::get('/reportbp', 'AdminController@reportbp'); (local='Done'||online='Done')
+36. membuat Route baru Route::get('/reportal', 'AdminController@reportal'); (local='Done'||online='Done')
+37. membuat Route baru Route::get('/reportap', 'AdminController@reportap'); (local='Done'||online='Done')
+38. membuat Route baru Route::get('/reportll', 'AdminController@reportll'); (local='Done'||online='Done')
+39. membuat Route baru Route::get('/reportlp', 'AdminController@reportlp'); (local='Done'||online='Done')
+40. penambahan reportbl fun pada Admin Controller (local='Done'||online='Done')
+41. penambahan reportbp fun pada Admin Controller (local='Done'||online='Done')
+42. penambahan menu report pada sidebar (local='Done'||online='Done')
+-->
+43. membuat file pilih nama yang mau di edit (local='Done'||online='')
+44. Route::get('/edit', 'AdminController@edit');
+45. Route::post('/fedit', 'AdminController@fedit');
+46. Route::post('/simpan', 'AdminController@simpan')->name('simpan');
+47. pembuatan file admin.form.blade.php
+48. pembuatan file berhasils.blade.php
+49. pembuatan file gagal.blade.php
+50. pembuatan controller edit
+-->
+51. membuat yield ("chart") di js.blade.php
+52. membuat @section ("chart) di beranda.blade.php
+53. update DaftarController@index
+-->
+54. membuat folder Helpers
+55. membuat file tanggal.php
+56. register di appservice provider
+57. merubah buktip dan bukti f
+-->
+58. Route::get('/unconfirm','AdminController@belumbayar');
+59. penambahan fun belumbayar
+60. panambahan sidebar menu belum bayar
+61. pembuatan view belum bayar.blade.php
+-->
+62. membuat Route baru di admin controller
+63. membuat fun admin dan petugas
+64. membuat file lembaga.blade.php
+65. sidebar logout
+66. fun logout
+
+test online
+1. database soal, jawaban
+2. route soal
+3. function soal
+4. folder test di view
+5. membuat menu login di layouts header.
+6. perubahan di view.auth login.blade
+7. merubah null pada tabel users
+8. membuat peserta di DaftarController
+9. membuat user dan password santri yg di buat tadi
+10. merubah logika admincontroller index
+-->
+11. membuat user khusus pembuat soal kode = 6 jabatan pembuat soal sltp/slta
+12. modifikasi index admin khusus pembuat soal
+13. route dan function draft soal
+14. membuat file test.sltp2020x dan slta2020x
+
+--> nambah timer
+1. buat timer.js
+2. buat timer.css
+3. admin.layout @yield('timerjs)
+3. admin.layout @yield('text timer html')
+4. file soal nambah timer
+5. membuat trigger nilai
+
+-->hasil test
+1. Route::get('/putra', 'AdminController@putra');
+2. Route::get('/putri', 'AdminController@putri');
+3. Route::get('/total', 'AdminController@putri');
+4. memnbuat link di admin.admin.blade.php dengan alamat ditersebut
+
+-->kelulusan
+1. menambah menu kelulusan layout sidebar kelulusan
+2. membuat view totalhasil1 sebagai beranda total peserta tahap I
+3. link ke nilai tahap I di totaltahap1
+
+--> mengundurkan diri
+1. menu di sidebar mengundurkan diri
+2. Route::mengundurkan diri
+3. controller out
+4. view out
+
+-->
+1. menu di siswa diterima 1. tahap I 2. tahap 2
+2. Route::di terima laki-pr
+3. Route::Pendaftar sementara tahap II
+
+-->
+1. link menu pendaftar tahap 1 di sidebar
+2. membuat route :
+Route::get('/tahap12020','AdminController@tahap12020');
+Route::get('/tahap22020','AdminController@tahap22020');
+Route::get('/tahap32020','AdminController@tahap32020');
+Route::get('/lulus12020','AdminController@lulus12020');
+Route::get('/lulus22020','AdminController@lulus22020');
+3. 
